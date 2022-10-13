@@ -27,10 +27,9 @@ ALLOWED_HOSTS = []
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if DEBUG:
-    SECRET_KEY = 'thisisthesecretkeyforthembsrapp!@#$%^&*()(*&^%$#@!'
+    SECRET_KEY = os.environ['SECRET_KEY_DEBUG']
 else:
     SECRET_KEY = os.environ['SECRET_KEY']
-    SECRET_KEY = 'django-insecure-kcaxwzgp%*i+y9(2g2m*+qtaq_*07ba5e*8us!*k#0ochr)_cu'
 
 # AWS EB ENV will not be able to access RDS unless request is made via HTTPS
 # SESSION_COOKIE_SECURE = True
@@ -48,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'MSR_App.apps.MbsrAppConfig',
+    'MBSR_App.apps.MbsrAppConfig',
 ]
 
 MIDDLEWARE = [
