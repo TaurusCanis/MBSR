@@ -21,9 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mbsr-env.eba-ktd4wtpn.us-east-1.elasticbeanstalk.com', "127.0.0.1"]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if DEBUG:
@@ -34,7 +34,7 @@ else:
 # AWS EB ENV will not be able to access RDS unless request is made via HTTPS
 # SESSION_COOKIE_SECURE = True
 
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
