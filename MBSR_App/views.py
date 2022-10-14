@@ -46,7 +46,8 @@ class GettingStartedDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         try:
-            return GettingStartedResponse.objects.get(mbsr_user__id=self.request.user.id)
+            obj = GettingStartedResponse.objects.get(mbsr_user__id=self.request.user.id)
+            return obj
         except:
             messages.error(self.request, 'Info not found.')
             return reverse('MBSR_App:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
