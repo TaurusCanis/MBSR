@@ -18,7 +18,7 @@ from django.urls import include,path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mbsr/', include('MBSR_App.urls')),
+    path('mbsr/', include('mbsr_app.urls')),
 ]
 
-handler404 = 'MBSR_App.views.not_found_404'
+handler404 = 'mbsr_app.views.not_found_404'

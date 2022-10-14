@@ -1,7 +1,7 @@
 from django.urls import include, path, re_path
 
 from . import views
-from MBSR_App.views import (
+from mbsr_app.views import (
     GettingStartedCreateView, FormalPracticeCreateView, InformalPracticeCreateView, 
     IndexView, SignUpView, MyLoginView, AccountHomeView, MyLogoutView, AccountHomeRedirectView, 
     FormalPracticeDetailView, InformalPracticeDetailView, InformalPracticeListView, FormalPracticeListView,
@@ -9,7 +9,7 @@ from MBSR_App.views import (
 )
 from django.contrib.auth import views as auth_views
 
-app_name = 'MBSR_App'
+app_name = 'mbsr_app'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     
@@ -24,7 +24,7 @@ urlpatterns = [
     path('signup_view/', SignUpView.as_view(), name='signup_view'),
     # path('login_view/', LogInView.as_view(), name='login_view'),
     path('account_home_view/<pk>/', AccountHomeView.as_view(), name='account_home_view'),
-    path('login/', MyLoginView.as_view(template_name='MBSR_App/login.html'), name="login"),
+    path('login/', MyLoginView.as_view(template_name='mbsr_app/login.html'), name="login"),
     path('logout/', MyLogoutView.as_view(), name="logout"),
     # path('logout/', views.logout , name="logout"),
     path('account_view_redirect/', AccountHomeRedirectView.as_view(), name="account_view_redirect"),
@@ -33,7 +33,7 @@ urlpatterns = [
 
 
 
-handler404 = 'MBSR_App.views.not_found_404'
+handler404 = 'mbsr_app.views.not_found_404'
 # handler500 = 'MBSR_App.views.my_custom_error_view'
 # handler403 = 'MBSR_App.views.my_custom_permission_denied_view'
 # handler400 = 'MBSR_App.views.my_custom_bad_request_view'

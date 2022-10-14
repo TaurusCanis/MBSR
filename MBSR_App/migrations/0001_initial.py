@@ -70,7 +70,7 @@ class Migration(migrations.Migration):
                 ('feelings_now', models.CharField(max_length=1000)),
                 ('week', models.IntegerField(blank=True, default=1)),
                 ('day', models.IntegerField(blank=True, default=1)),
-                ('mbsr_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='MBSR_App.mbsruser')),
+                ('mbsr_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mbsr_app.mbsruser')),
             ],
         ),
         migrations.CreateModel(
@@ -82,7 +82,7 @@ class Migration(migrations.Migration):
                 ('practice_time', models.CharField(max_length=1000)),
                 ('practice_location', models.CharField(max_length=1000)),
                 ('prep_time', models.CharField(max_length=1000)),
-                ('mbsr_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='MBSR_App.mbsruser')),
+                ('mbsr_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mbsr_app.mbsruser')),
             ],
         ),
         migrations.CreateModel(
@@ -93,7 +93,7 @@ class Migration(migrations.Migration):
                 ('comment', models.CharField(max_length=10000)),
                 ('week', models.IntegerField(blank=True, default=1)),
                 ('day', models.IntegerField(blank=True, default=1)),
-                ('mbsr_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='MBSR_App.mbsruser')),
+                ('mbsr_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mbsr_app.mbsruser')),
             ],
         ),
     ]

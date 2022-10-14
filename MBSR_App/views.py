@@ -21,7 +21,7 @@ import datetime
 from .util.MBSRUserUpdatesMixin import MBSRUserUpdatesMixin
 
 class GettingStartedCreateView(LoginRequiredMixin, CreateView):
-    login_url = 'MBSR_App:index'
+    login_url = 'mbsr_app:index'
     form_class = GettingStartedResponseForm
     model = GettingStartedResponse
 
@@ -38,22 +38,28 @@ class GettingStartedCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('MBSR_App:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
+        return reverse('mbsr_app:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
 
 class GettingStartedDetailView(LoginRequiredMixin, DetailView):
-    login_url = 'MBSR_App:index'
-    template_name = "MBSR_App/gettingstartedresponse_detail.html"
+    login_url = 'mbsr_app:index'
+    template_name = "mbsr_app/gettingstartedresponse_detail.html"
+
+    def get_mbsr_user(self):
+        user = User.objects.get(id = self.request.user.id)
+        return MBSRUser.objects.get(user=user)
 
     def get_object(self):
         try:
-            obj = GettingStartedResponse.objects.get(mbsr_user__id=self.request.user.id)
+            obj = GettingStartedResponse.objects.get(mbsr_user=self.get_mbsr_user().id)
+            print("TRY SUCCESSFUL")
             return obj
         except:
+            print("FAILURE")
             messages.error(self.request, 'Info not found.')
-            return reverse('MBSR_App:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
+            return reverse('mbsr_app:account_home_view', kwargs={'pk': self.get_mbsr_user()})
 
 class FormalPracticeCreateView(LoginRequiredMixin, CreateView, MBSRUserUpdatesMixin):
-    login_url = 'MBSR_App:index'
+    login_url = 'mbsr_app:index'
     model = FormalPractice
     form_class = FormalPracticeForm
 
@@ -78,7 +84,7 @@ class FormalPracticeCreateView(LoginRequiredMixin, CreateView, MBSRUserUpdatesMi
         return MBSRUser.objects.get(user=self.request.user.id)
 
     def get_success_url(self):
-        return reverse('MBSR_App:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
+        return reverse('mbsr_app:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
 
     def get_context_data(self, **kwargs):
         context = super(FormalPracticeCreateView, self).get_context_data(**kwargs)
@@ -99,8 +105,8 @@ class FormalPracticeListView(LoginRequiredMixin, ListView):
         return FormalPractice.objects.filter(mbsr_user=self.get_user()).order_by("-date")
 
 class FormalPracticeDetailView(LoginRequiredMixin, DetailView):
-    login_url = 'MBSR_App:index'
-    template_name = "MBSR_App/formalpractice_view.html"
+    login_url = 'mbsr_app:index'
+    template_name = "mbsr_app/formalpractice_view.html"
 
     def get_user(self):
         return MBSRUser.objects.get(user=self.request.user.id)
@@ -110,7 +116,7 @@ class FormalPracticeDetailView(LoginRequiredMixin, DetailView):
         return FormalPractice.objects.get(mbsr_user=self.get_user(), date=self.kwargs['date'])
 
 class InformalPracticeCreateView(LoginRequiredMixin, CreateView, MBSRUserUpdatesMixin):
-    login_url = 'MBSR_App:index'
+    login_url = 'mbsr_app:index'
     model = InformalPractice
     form_class = InformalPracticeForm
 
@@ -129,7 +135,7 @@ class InformalPracticeCreateView(LoginRequiredMixin, CreateView, MBSRUserUpdates
         return MBSRUser.objects.get(user=self.request.user.id)
 
     def get_success_url(self):
-        return reverse('MBSR_App:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
+        return reverse('mbsr_app:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
 
     def get_context_data(self, **kwargs):
         context = super(InformalPracticeCreateView, self).get_context_data(**kwargs)
@@ -141,9 +147,9 @@ class InformalPracticeCreateView(LoginRequiredMixin, CreateView, MBSRUserUpdates
         return context
 
 class InformalPracticeDetailView(LoginRequiredMixin, DetailView):
-    login_url = 'MBSR_App:index'
+    login_url = 'mbsr_app:index'
     
-    template_name = "MBSR_App/informalpractice_view.html"
+    template_name = "mbsr_app/informalpractice_view.html"
     # model = InformalPractice
 
     def get_user(self):
@@ -173,11 +179,11 @@ class IndexView(View):
             'login': AuthenticationForm,
             'signup': MyUserCreationForm,
         }
-        return render(request, 'MBSR_App/index.html', form_classes)
+        return render(request, 'mbsr_app/index.html', form_classes)
 
 class SignUpView(CreateView):
     form_class = MyUserCreationForm
-    template_name = "MBSR_App/register_new_user.html"
+    template_name = "mbsr_app/register_new_user.html"
     
     def form_valid(self,form):
         print("FORM VALID")
@@ -185,7 +191,7 @@ class SignUpView(CreateView):
         new_user = form.save()
         if new_user is not None:
             login(self.request, new_user)
-            return redirect('MBSR_App:account_home_view', pk = new_user.id)
+            return redirect('mbsr_app:account_home_view', pk = new_user.id)
         else:
             return super().form_invalid(form)
             # return redirect('/mbsr/signup_view/') 
@@ -215,17 +221,17 @@ class SignUpView(CreateView):
 class MyLoginView(LoginView):
     form_class = MyLoginForm
     def get_success_url(self):
-        url = 'MBSR_App:account_view_redirect'
+        url = 'mbsr_app:account_view_redirect'
         return reverse(url)
 
 # def logout(request):
 #     django_logout(request)
-#     return redirect("MBSR_App:index")
+#     return redirect("mbsr_app:index")
 
 class MyLogoutView(LogoutView):
     def dispatch(self, request, *args, **kwargs):
         auth_logout(request)
-        next_page = reverse('MBSR_App:index')
+        next_page = reverse('mbsr_app:index')
         if next_page:
             # Redirect to this page until the session has been cleared.
             return redirect(next_page)
@@ -233,9 +239,9 @@ class MyLogoutView(LogoutView):
 
 
 class AccountHomeView(LoginRequiredMixin, DetailView):
-    login_url = 'MBSR_App:index'
+    login_url = 'mbsr_app:index'
     
-    template_name = "MBSR_App/account_home.html"
+    template_name = "mbsr_app/account_home.html"
     model = MBSRUser
 
     def get_object(self):
@@ -245,24 +251,26 @@ class AccountHomeView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         # mbsr_user = MBSRUser.objects.get(user_id = self.request.user.id) 
         mbsr_user = self.get_object()
-        formal_practice_exists = FormalPractice.objects.filter(date__contains = date.today()).exists()
-        informal_practice_exists = InformalPractice.objects.filter(date__contains = date.today()).exists()
+        formal_practice_qs = FormalPractice.objects.filter(mbsr_user=self.get_object()).order_by('-date')
+        formal_practice_exists = formal_practice_qs.filter(mbsr_user=self.get_object(),date__contains = date.today()).exists()
+        informal_practice_exists = InformalPractice.objects.filter(mbsr_user=self.get_object(),date__contains = date.today()).exists()
 
         context = super(AccountHomeView, self).get_context_data()
 
+        today = date.today()
+
         context['formal_practice_exists'] = formal_practice_exists
         context['informal_practice_exists'] = informal_practice_exists
-        context['date_today'] = date.today()
-
-        print("context: ", context)
+        context['date_today'] = today
+        context['day_of_mbsr_week'] = mbsr_user.day_of_week if formal_practice_qs.first().date.date() < today else mbsr_user.day_of_week - 1
 
         return context
 
 class AccountHomeRedirectView(RedirectView):
     def get_redirect_url(self):
-        return reverse("MBSR_App:account_home_view", kwargs={'pk': self.request.user.id})
+        return reverse("mbsr_app:account_home_view", kwargs={'pk': self.request.user.id})
 
 
 def not_found_404(request, exception):
-    template_name = 'MBSR_App/404.html'
+    template_name = 'mbsr_app/404.html'
     return page_not_found(request, exception, template_name=template_name)

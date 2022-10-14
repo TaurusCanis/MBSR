@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['mbsr-eb-env.eba-gik998hg.us-east-1.elasticbeanstalk.com', "127.0.0.1"]
 
@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'MBSR_App.apps.MbsrAppConfig',
+    'mbsr_app.apps.MbsrAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -91,15 +91,7 @@ WSGI_APPLICATION = 'MBSR_Project.wsgi.application'
 #     }
 # }
 
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
-elif 'RDS_HOSTNAME' in os.environ:
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': os.environ['RDS_DB_NAME'],
@@ -109,6 +101,25 @@ elif 'RDS_HOSTNAME' in os.environ:
             'PORT': os.environ['RDS_PORT'],
         }
     }
+
+# if DEBUG:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
+# elif 'RDS_HOSTNAME' in os.environ:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': os.environ['RDS_DB_NAME'],
+#             'USER': os.environ['RDS_USERNAME'],
+#             'PASSWORD': os.environ['RDS_PASSWORD'],
+#             'HOST': os.environ['RDS_HOSTNAME'],
+#             'PORT': os.environ['RDS_PORT'],
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

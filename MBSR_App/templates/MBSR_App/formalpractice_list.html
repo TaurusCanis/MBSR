@@ -6,7 +6,7 @@
         {% for entry in object_list %}
         <div class="level">
             <div class="level-item">
-                <a href="{% url 'MBSR_App:formal_practice_detail_view' date=entry.date %}">
+                <a href="{% url 'mbsr_app:formal_practice_detail_view' date=entry.date %}">
                     Week {{ entry.week }},
                     Day {{ entry.day }} - 
                     {{ entry.date }}
