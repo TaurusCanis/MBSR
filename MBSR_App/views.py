@@ -45,7 +45,11 @@ class GettingStartedDetailView(LoginRequiredMixin, DetailView):
     template_name = "MBSR_App/gettingstartedresponse_detail.html"
 
     def get_object(self):
-        return GettingStartedResponse.objects.get(mbsr_user__id=self.request.user.id)
+        try:
+            return GettingStartedResponse.objects.get(mbsr_user__id=self.request.user.id)
+        except:
+            messages.error(self.request, 'Info not found.')
+            return reverse('MBSR_App:account_home_view', kwargs={'pk': self.object.mbsr_user.id})
 
 class FormalPracticeCreateView(LoginRequiredMixin, CreateView, MBSRUserUpdatesMixin):
     login_url = 'MBSR_App:index'
